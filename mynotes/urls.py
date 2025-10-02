@@ -1,7 +1,7 @@
 from rest_framework.routers import DefaultRouter
 from mynotes import views
 from django.urls import path
-from rest_framework.authtoken.views import obtain_auth_token
+
 
 router = DefaultRouter()
 router.register(r'user',views.NoteViewset,basename='user')

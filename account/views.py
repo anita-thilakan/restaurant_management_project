@@ -1,11 +1,12 @@
-from django.shortcuts import render,get_object_or_404
+from django.shortcuts import render,get_object_or_404,redirect
 from rest_framework.decorators import api_view
-from .models import Restaurant,MenuItem
-from .serializers import RestaurantSerializer,StaffLoginSerilizer,MenuIemSerializer
+from .models import Restaurant,MenuItem,Customer
+from .serializers import RestaurantSerializer,StaffLoginSerilizer,MenuItemSerializer,CustomerSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth import authenticate,get_user_model
 from rest_framework.views import APIView
+from django.urls import reverse
 # Create your views here.
 @api_view(['GET'])
 def restaurants(request,pk=None):
@@ -60,6 +61,9 @@ class StaffLoginAPIView(APIView):
             try:
 
                 myuser = User.objects.get(email=email)
+                res_id = myuser.res_id.id
+                url = reverse('menuitems',kwargs={'pk':res_id})
+                return redirect(url)
             except User.DoesNotExist:
                 return Response({"error": "invalid user!"})
 
@@ -108,4 +112,18 @@ def delete_menuitem(request,pk):
 
     return Response(status=status.HTTP_204_NO_CONTENT)
 
+# get customers
+@api_view(['GET'])
+def get_customers(request):
+    customers = Customer.objects.all()
+    serializer = CustomerSerializer(customers,many=True)
+    return Response(serializer.data)
+
+#create customer
+@api_view(['POST'])
+def create_customer(request):
+    serializer = CustomerSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data,status=status.HTTP_201_CREATED)
 

@@ -43,6 +43,7 @@ def register(request,pk=None):
 def delete_restaurant(request,pk):
     restaurant = get_object_or_404(Restaurant,pk=pk)
     restaurant.delete()
+    print('deleted')
 
     return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -83,13 +84,13 @@ class StaffLoginAPIView(APIView):
 def menuitems(request,pk):
     restaurant = Restaurant.objects.get(id=pk)
     menuitems = MenuItem.objects.filter(restaurant= restaurant)
-    serializer = MenuIemSerializer(menuitems,many=True)
+    serializer = MenuItemSerializer(menuitems,many=True)
     return Response(serializer.data,status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
 def create_menu_item(request,pk):
-    serializer = MenuIemSerializer(data=request.data)
+    serializer = MenuItemSerializer(data=request.data)
     restaurant = Restaurant.objects.get(pk=pk)
     if serializer.is_valid():
         serializer.save(restaurant= restaurant)
@@ -99,7 +100,7 @@ def create_menu_item(request,pk):
 @api_view(['PUT'])
 def update_menu_item(request,pk):
     menuitem = MenuItem.objects.get(pk=pk)
-    serializer = MenuIemSerializer(menuitem,data = request.data, partial = True)
+    serializer = MenuItemSerializer(menuitem,data = request.data, partial = True)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data,status=status.HTTP_200_OK)

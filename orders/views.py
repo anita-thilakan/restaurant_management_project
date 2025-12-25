@@ -12,7 +12,8 @@ def create_order(request,pk):
         response_data = {
             "order_id": order.id,
             "status": "success",
-            "customer":order.customer.name
+            "customer":order.customer.name,
+            "total price" : order.total_price
         }
 
         return Response(response_data)

@@ -1,0 +1,36 @@
+admin:
+
+anitathilakan@gmail.com
+anita@123
+
+urls:
+
+# to register
+http://127.0.0.1:8000/api/accounts/register/
+
+# to view all restaurants
+http://127.0.0.1:8000/api/accounts/restaurants
+
+# to view a particular restaurant
+http://127.0.0.1:8000/api/accounts/restaurant/1
+
+# to delete a restaurant
+http://127.0.0.1:8000/api/accounts/delete/3
+
+#update the restaurant
+http://127.0.0.1:8000/api/accounts/update/1
+
+#to create the menuitem, where id is of the restaurant
+http://127.0.0.1:8000/api/accounts/restaurant/2/createmenu 
+
+#to create order
+http://127.0.0.1:8000/api/orders/restaurant/2/createorder
+{
+"customer" : {
+"name" : "Emma",
+"phone" : "9895564332"
+},
+"items" : ["paneer masala","palak paneer"],
+"res": 2
+
+}
